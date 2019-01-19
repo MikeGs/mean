@@ -6,6 +6,8 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database');
 
+const users = require('./routes/users');
+
 mongoose.connect(config.database);
 
 mongoose.connection.on('connected', () => {
@@ -16,17 +18,26 @@ mongoose.connection.on('error', (err) => {
   console.log('Database error ' + err);
 });
 
-
+// EXPRESS 
 const app = express();
 
+// Port
 const port = 3000;
 
-const users = require('./routes/users');
-
+// CORS Middleware
 app.use(cors());
+
+// Set Static Folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// BodyParser
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./config/passport')(passport);
 
 app.use('/users', users);
 
