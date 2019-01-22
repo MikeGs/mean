@@ -22,7 +22,7 @@ mongoose.connection.on('error', (err) => {
 const app = express();
 
 // Port
-const port = 3000;
+const port = process.env.PORT || 8080; // Heroku deployment
 
 // CORS Middleware
 app.use(cors());
@@ -43,6 +43,10 @@ app.use('/users', users);
 
 app.get('/', (req, res) =>{
   res.send('Invalid endpoint');
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.listen(port, (req, res) => {

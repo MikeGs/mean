@@ -14,11 +14,11 @@ export class AuthService {
   constructor(private _http: HttpClient){}
 
   registerUser(user) {
-    return this._http.post('http://localhost:3000/users/register', user);
+    return this._http.post('users/register', user);
   }
 
   authenticateUser(user) {
-    return this._http.post('http://localhost:3000/users/authenticate', user);
+    return this._http.post('users/authenticate', user);
   }
 
   getProfile() {
@@ -30,7 +30,7 @@ export class AuthService {
         'Authorization': this.authToken
       })
     };
-    return this._http.get('http://localhost:3000/users/profile', httpOptions);
+    return this._http.get('users/profile', httpOptions);
   }
 
   storeUserData(token, user){
